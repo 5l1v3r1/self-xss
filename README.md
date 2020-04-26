@@ -12,8 +12,7 @@ Self-XSS is a social engineering attack used to gain control of victims' web acc
 
 ### Features:
 
-Port Forwarding using Ngrok
-Shortner using Bitly.com (Register for free)
+Port Forwarding using Ngrok and hortner using Bitly.com (Register for free)
 
 ### Requirement
 
