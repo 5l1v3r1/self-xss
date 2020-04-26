@@ -1,6 +1,6 @@
 # Self-XSS v1.2
-## Author: github.com/thelinuxchoice/self-xss
-## Twitter: twitter.com/linux_choice
+## Author: https://github.com/thelinuxchoice/self-xss
+## Twitter: https://twitter.com/linux_choice
 
 Self-XSS attack using bit.ly to grab cookies tricking users into running malicious code
 
@@ -14,11 +14,11 @@ Self-XSS is a social engineering attack used to gain control of victims' web acc
 
 ### Features:
 
-Port Forwarding using Ngrok and hortner using Bitly.com (Register for free)
+Port Forwarding using Ngrok and shortner using Bitly.com (Register for free)
 
 ### Requirement
 
-Bit.ly account (Register for free)
+https://bitly.com account (Register for free)
 
 ## Legal disclaimer:
 
